@@ -1,6 +1,6 @@
 <template>
   <b-navbar class="header" toggleable="lg">
-    <b-navbar-brand class="text-light">
+    <b-navbar-brand href="/" class="text-light">
       Inkmate
     </b-navbar-brand>
   </b-navbar>
