@@ -1,12 +1,12 @@
 <template>
-  <div class="container bg-danger">
-    <b-container>
+  <div class="container">
+    <b-container class="mt-5">
       <b-row class="mx-5 w-100">
         <b-col md="4" sm="12">
           <b-card
             title="Painting the room"
             tag="article"
-            class="mb-2"
+            class="mb-2 pt-0"
           >
             <b-card-text>
               Instantly get the amount of ink needed to paint your room
@@ -28,7 +28,7 @@ export default {
 <style>
 .container {
   margin: 0;
-  min-height: 88vh; /* 88% Container, 7% Header, 5% Padding Top */
+  min-height: 93vh; /* 88% Container, 7% Header, 5% Padding Top */
   min-width: 100vw;
   display: flex;
   background-color: #FAACA8;
@@ -36,6 +36,5 @@ export default {
   justify-content: center;
   align-items: flex-start;
   text-align: center;
-  padding-top: 5vh;
 }
 </style>
