@@ -1,73 +1,41 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        inkmate
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+  <div class="container bg-danger">
+    <b-container>
+      <b-row class="mx-5 w-100">
+        <b-col md="4" sm="12">
+          <b-card
+            title="Painting the room"
+            tag="article"
+            class="mb-2"
+          >
+            <b-card-text>
+              Instantly get the amount of ink needed to paint your room
+            </b-card-text>
+            <NavButton to="/painting-the-room" title="Go" />
+          </b-card>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'MainPage'
+}
 </script>
 
 <style>
 .container {
-  margin: 0 auto;
-  min-height: 100vh;
+  margin: 0;
+  min-height: 88vh; /* 88% Container, 7% Header, 5% Padding Top */
+  min-width: 100vw;
   display: flex;
+  background-color: #FAACA8;
+  background-image: linear-gradient(19deg, #FAACA8 0%, #DDD6F3 100%);
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+  padding-top: 5vh;
 }
 </style>
