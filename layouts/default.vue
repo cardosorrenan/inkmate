@@ -32,4 +32,17 @@ html {
   margin: 0;
   padding: 0;
 }
+
+#container {
+  margin: 0;
+  min-height: 93vh; /* 88% Container, 7% Header, 5% Padding Top */
+  min-width: 100vw;
+  display: flex;
+  background-color: #FAACA8;
+  background-image: linear-gradient(19deg, #FAACA8 0%, #DDD6F3 100%);
+  justify-content: center;
+  align-items: flex-start;
+  text-align: center;
+}
+
 </style>
