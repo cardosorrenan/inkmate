@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ wallId }}
     <Input dimension-wall="Width" :value="1" />
     <Input dimension-wall="Height" :value="1" />
   </div>

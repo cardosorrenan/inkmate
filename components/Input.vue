@@ -81,7 +81,7 @@ export default {
     margin: 0px !important;
     padding: 0px !important;
     background-color: white;
-    border: 1px solid #007bff;
+    border: 1px solid #d5d5d5;
     color: #007bff;
     text-align: center;
     font-size: 15pt;
