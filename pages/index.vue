@@ -11,7 +11,7 @@
             <b-card-text>
               Instantly get the amount of ink needed to paint your room
             </b-card-text>
-            <NavButton to="/painting-the-room" title="Go" />
+            <NavButton to="/painting" title="Go" />
           </b-card>
         </b-col>
       </b-row>
