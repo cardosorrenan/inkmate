@@ -29,11 +29,8 @@
           Next
         </b-button>
       </div>
-      <PaintingDimensionRange />
-      <!--div class="d-flex justify-content-center justify-content-between">
-        <PaintingItemWall label="Doors" />
-        <PaintingItemWall label="Windows" />
-      </div> -->
+      <PaintingDimensionsRange />
+      <PaintingItemWall />
     </CustomCard>
   </b-container>
 </template>
