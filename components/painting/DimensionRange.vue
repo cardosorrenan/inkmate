@@ -4,13 +4,13 @@
       <button
         type="button"
         class="control-button shadow p-1 bd-highlight bg-white rounded"
-        @click="decrement()"
+        @click="decrease('lengthWall')"
       >
         -
       </button>
       <b-form-input
         id="range-2"
-        v-model="value"
+        v-model="lengthWall"
         type="range"
         min="1.0"
         max="15.0"
@@ -20,60 +20,94 @@
       <button
         type="button"
         class="control-button shadow p-1 bd-highlight bg-white rounded"
-        @click="increment()"
+        @click="increase('lengthWall')"
       >
         +
       </button>
     </div>
     <div style="font-size: 10pt" class="d-flex justify-content-start align-items-center mt-2 mb-4">
       <p class="text-muted p-0 m-0">
-        {{ label }}:
+        Length
       </p>
-      <p class="border border-muted rounded p-2 m-0 ml-2">
-        {{ value }} m
+      <p class="rounded p-2 m-0 ml-2">
+        {{ lengthWall }} m
+      </p>
+    </div>
+    <div class="d-flex align-items-center">
+      <button
+        type="button"
+        class="control-button shadow p-1 bd-highlight bg-white rounded"
+        @click="decrease('heightWall')"
+      >
+        -
+      </button>
+      <b-form-input
+        id="range-2"
+        v-model="heightWall"
+        type="range"
+        min="1.0"
+        max="15.0"
+        step="0.01"
+        class="mx-3"
+      />
+      <button
+        type="button"
+        class="control-button shadow p-1 bd-highlight bg-white rounded"
+        @click="increase('heightWall')"
+      >
+        +
+      </button>
+    </div>
+    <div style="font-size: 10pt" class="d-flex justify-content-start align-items-center mt-2 mb-4">
+      <p class="text-muted p-0 m-0">
+        Height:
+      </p>
+      <p class="rounded p-2 m-0 ml-2">
+        {{ heightWall }} m
       </p>
     </div>
   </div>
 </template>
 
 <script>
+
+import { mapMutations, mapGetters } from 'vuex'
+
 export default {
-  props: {
-    label: {
-      idWall: {
-        type: Number,
-        required: true
-      },
-      type: String,
-      required: true
-    }
-  },
-  data () {
-    return {
-      value: 1.0
-    }
-  },
   computed: {
-    state () {
-      return this.value >= 1 && this.value <= 15
-    },
-    invalidFeedback () {
-      if (this.value.length > 0) {
-        return 'Please, the dimension must be between 1 meter and 15 meters.'
+    ...mapGetters({
+      currentWall: 'walls/wall'
+    }),
+    lengthWall: {
+      get () {
+        return this.currentWall.lengthWall
+      },
+      set (value) {
+        this.updateWallByProperty({ property: 'lengthWall', value })
       }
-      return 'Please enter something.'
+    },
+    heightWall: {
+      get () {
+        return this.currentWall.heightWall
+      },
+      set (value) {
+        this.updateWallByProperty({ property: 'heightWall', value })
+      }
     }
   },
   methods: {
-    increment () {
-      if (this.value < 15) {
-        this.value = (parseFloat(this.value) + 0.01).toFixed(2)
-      }
+    ...mapMutations({
+      updateWallByProperty: 'walls/updateWallByProperty'
+    }),
+    increase (property) {
+      const before = parseFloat(this.currentWall[property])
+      const value = (before + 0.01).toFixed(2)
+      this.updateWallByProperty({ property, value })
     },
-    decrement () {
-      if (this.value > 1) {
-        this.value = (parseFloat(this.value) - 0.01).toFixed(2)
-      }
+    decrease (property) {
+      const before = parseFloat(this.currentWall[property])
+      const value = (before - 0.01).toFixed(2)
+      this.updateWallByProperty({ property, value })
     }
   }
 }
