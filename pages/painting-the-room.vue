@@ -29,21 +29,16 @@
           Next
         </b-button>
       </div>
-      <div v-for="wallID in arrayWalls" :key="wallID">
-        <PaintingPanelDimensions v-show="showWallWithID == wallID" :wall-id="wallID" />
-        <div class="d-flex justify-content-center justify-content-between">
-          <PaintingSelectItemWall v-show="showWallWithID == wallID" type-object="Doors" />
-          <PaintingSelectItemWall v-show="showWallWithID == wallID" type-object="Windows" />
+      <div v-for="idWall in arrayWalls" :key="idWall">
+        <div v-show="showWallWithID === idWall">
+          <PaintingDimensionRange :id-wall="idWall" label="Width" />
+          <PaintingDimensionRange :id-wall="idWall" label="Height" />
+          <div class="d-flex justify-content-center justify-content-between">
+            <PaintingItemWall :id-wall="idWall" label="Doors" />
+            <PaintingItemWall :id-wall="idWall" label="Windows" />
+          </div>
         </div>
       </div>
-      <b-button
-        class="controlButton"
-        variant="outline-success btn-sm"
-        :disabled="showWallWithID == quantityWalls"
-        @click="nextWall()"
-      >
-        Next
-      </b-button>
     </CustomCard>
   </b-container>
 </template>
@@ -61,12 +56,12 @@ export default {
     }
   },
   computed: {
-    myWalls () {
-      return this.$store.state.walls.walls
-    },
     arrayWalls () {
       return [...Array(this.quantityWalls).keys()].map(num => num + 1)
     }
+  },
+  created () {
+    this.instanceWalls(this.quantityWalls)
   },
   methods: {
     previousWall () {

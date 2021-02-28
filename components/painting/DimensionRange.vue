@@ -27,7 +27,7 @@
     </div>
     <div style="font-size: 10pt" class="d-flex justify-content-start align-items-center mt-2 mb-4">
       <p class="text-muted p-0 m-0">
-        {{ dimensionWall }}:
+        {{ label }}:
       </p>
       <p class="border border-muted rounded p-2 m-0 ml-2">
         {{ value }} m
@@ -39,7 +39,11 @@
 <script>
 export default {
   props: {
-    dimensionWall: {
+    label: {
+      idWall: {
+        type: Number,
+        required: true
+      },
       type: String,
       required: true
     }
