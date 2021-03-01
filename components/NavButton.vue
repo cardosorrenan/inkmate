@@ -1,6 +1,6 @@
 <template>
   <NuxtLink class="text-light" :to="to">
-    <b-button>
+    <b-button class="button shadow">
       {{ title }}
     </b-button>
   </NuxtLink>
@@ -23,7 +23,9 @@ export default {
 </script>
 
 <style scoped>
-  b-button {
-    background-color: #3a9bc8;
+  .button {
+    background-color: #f4901d;
+    border: 0px;
+    color: #f3f3f3
   }
 </style>

@@ -1,49 +1,104 @@
 <template>
   <b-container id="container" class="d-flex align-items-center">
-    {{ currentWall }}
-    <CustomCard>
+    <CustomCard v-if="collectingInfo">
+      <h6 class="mr-auto mb-3">
+        Painting the room:
+      </h6>
       <b-progress
-        :variant="currentWallId != quantityWalls + 1 ? 'primary' : 'success'"
         :max="quantityWalls"
-        class="mt-0 pt-0 mb-2"
+        class="mt-0 pt-0 mb-2 bar-gray"
         show-progress
         animated
       >
-        <b-progress-bar :value="currentWallId - 1">
-          <span class=""><strong>{{ (currentWallId - 1) * (100/quantityWalls) }} %</strong></span>
+        <b-progress-bar class="progress-bar-orange" :value="currentWallId - 1">
+          <span><strong>{{ (currentWallId - 1) * (100/quantityWalls) }} %</strong></span>
         </b-progress-bar>
       </b-progress>
-      <div class="d-flex align-items-center justify-content-center mb-4">
+      <PaintingDimensionsRange />
+      <PaintingItemWall />
+      <div class="d-flex align-items-center justify-content-center my-2 border-top border-muted pt-3">
         <b-button
-          variant="outline-primary mr-2 btn-sm"
+          class="btn-sm text-light mr-2 border border-transparent shadow"
+          style="background-color: #f4901d"
           :disabled="currentWallId == 1"
           @click="previousWall()"
         >
           Previous
         </b-button>
         <b-button
-          :disabled="currentWallId == quantityWalls + 1"
-          class="controlButton"
-          variant="outline-primary btn-sm"
+          class="btn-sm text-light border border-transparent shadow"
+          style="background-color: #f4901d"
+          :disabled="currentWallId - 1 == quantityWalls"
           @click="nextWall()"
         >
           Next
         </b-button>
       </div>
-      <PaintingDimensionsRange />
-      <PaintingItemWall />
     </CustomCard>
-    <CustomCard>
+    <CustomCard v-else class="w-40">
+      <b-progress
+        :max="100"
+        class="mt-0 pt-0 mb-2 bar-gray"
+        show-progress
+        animated
+      >
+        <b-progress-bar class="progress-bar-orange" :value="100">
+          <span><strong>100 %</strong></span>
+        </b-progress-bar>
+      </b-progress>
+      <div style="font-size: 8pt;" class="d-flex w-100">
+        <div class="border-right border-muted mt-2 pr-3 w-50">
+          <h6 class="mr-auto my-1">
+            <strong>Resume</strong>
+          </h6>
+          <div
+            v-for="wall in walls"
+            :key="wall.idWall"
+            class="d-flex flex-column align-items-center border-top border-muted py-2"
+          >
+            <p class="mb-0 p-0">
+              Wall {{ wall.idWall }} - {{ wall.lengthWall }}m x {{ wall.heightWall }}m
+            </p>
+            <p v-if="wall.numDoors > 0" class="mb-0 p-0">
+              Doors: {{ wall.numDoors }}
+            </p>
+            <p v-if="wall.numWindows > 0" class="mb-0 p-0">
+              Windows: {{ wall.numWindows }}
+            </p>
+            <p class="mb-0  p-0">
+              Area {{ getAreaByWall(wall) }} m²
+            </p>
+          </div>
+        </div>
+        <div class="mt-2 pl-3 w-50">
+          <h6 class="mr-auto my-1">
+            <strong>Results</strong>
+          </h6>
+          <div
+            v-for="product in gallons.results"
+            :key="product.prod_code"
+            class="d-flex flex-column align-items-center border-top border-muted py-2"
+          >
+            <p class="mb-0 p-0">
+              Gallon {{ product.volume }} - R$ {{ product.price_un }}
+            </p>
+            <p class="mb-0 p-0">
+              Quantity: {{ product.qtd_total }}
+            </p>
+            <p class="mb-0 p-0">
+              Total (R$): {{ parseFloat(product.price) }}
+            </p>
+          </div>
+        </div>
+      </div>
       <b-button
-          :disabled="currentWallId != quantityWalls + 1"
-          class="controlButton"
-          variant="outline-success btn-sm"
-          @click="sendArea()"
-        >
-          Get the Gallons!
-        </b-button>
+        class="mt-3 btn-sm text-light border border-transparent shadow"
+        variant="dark"
+        @click="collectingInfo = true && currentWallId--"
+      >
+        Back
+      </b-button>
     </CustomCard>
-    <ToastNotification ref="notify" />
   </b-container>
 </template>
 
@@ -51,21 +106,31 @@
 
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 import Validating from '../functions/Validating'
+import AreaByWall from '../functions/AreaByWall'
 
 export default {
   name: 'Paiting',
   data () {
     return {
       quantityWalls: 4,
-      currentWallId: 1
+      currentWallId: 1,
+      collectingInfo: true
     }
   },
   computed: {
     ...mapGetters({
+      walls: 'walls/walls',
       currentWall: 'walls/wall',
       areaWalls: 'walls/getAreaFromWalls',
       gallons: 'gallons/getFetchedGallons'
     })
+  },
+  watch: {
+    gallons: {
+      handler (update) {
+        this.collectingInfo = false
+      }
+    }
   },
   methods: {
     ...mapActions({
@@ -87,14 +152,31 @@ export default {
         this.currentWallId++
         if (this.currentWallId !== this.quantityWalls + 1) {
           this.changeCurrentWallById(this.currentWallId)
+        } else {
+          this.fetchGallons({ myRoomArea: this.areaWalls })
         }
       } else {
-        alerts.map(alert => this.$refs.notify.createToast('Check the Entries!', alert.message, 'danger'))
+        alerts.map(alert => this.notify(alert.message))
       }
     },
-    sendArea () {
-      this.fetchGallons({ myRoomArea: this.areaWalls })
+    notify (message) {
+      return this.$bvToast.toast(message, {
+        title: 'Check the inputs...',
+        solid: false,
+        autoHideDelay: 3000
+      })
+    },
+    getAreaByWall (wall) {
+      return AreaByWall.areaByWall(wall)
     }
   }
 }
 </script>
+<style scoped>
+  .progress-bar-orange {
+    background-color: #f4901d;
+  }
+  .bar-gray {
+    background-color: #d5d5d5;
+  }
+</style>

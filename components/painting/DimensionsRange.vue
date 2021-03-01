@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="border-top border-muted pt-2">
     <div class="d-flex align-items-center">
       <button
         type="button"
@@ -25,7 +25,7 @@
         +
       </button>
     </div>
-    <div style="font-size: 10pt" class="d-flex justify-content-start align-items-center mt-2 mb-4">
+    <div style="font-size: 10pt" class="d-flex justify-content-start align-items-center my-2">
       <p class="text-muted p-0 m-0">
         Length
       </p>
@@ -58,7 +58,7 @@
         +
       </button>
     </div>
-    <div style="font-size: 10pt" class="d-flex justify-content-start align-items-center mt-2 mb-4">
+    <div style="font-size: 10pt" class="d-flex justify-content-start align-items-center my-2">
       <p class="text-muted p-0 m-0">
         Height:
       </p>
@@ -118,11 +118,15 @@ export default {
     width: 45px;
     margin: 0px !important;
     padding: 0px !important;
-    background-color: white;
+    background-color: d5d5d5;
     border: 1px solid #d5d5d5;
-    color: #007bff;
+    color: #f4901d;
     text-align: center;
     font-size: 15pt;
-    font-weight: 500;
+    font-weight: bold;
+  }
+  #range-2 {
+    content: "\e823";
+    color: rgba(0, 0, 0, 0.54);
   }
 </style>
