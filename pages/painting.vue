@@ -1,15 +1,16 @@
 <template>
   <b-container id="container" class="d-flex align-items-center">
+    {{ currentWall }}
     <CustomCard>
       <b-progress
-        :variant="currentWallId != quantityWalls ? 'primary' : 'success'"
+        :variant="currentWallId != quantityWalls + 1 ? 'primary' : 'success'"
         :max="quantityWalls"
         class="mt-0 pt-0 mb-2"
         show-progress
         animated
       >
-        <b-progress-bar :value="currentWallId">
-          <span class=""><strong>{{ currentWallId * (100/quantityWalls) }} %</strong></span>
+        <b-progress-bar :value="currentWallId - 1">
+          <span class=""><strong>{{ (currentWallId - 1) * (100/quantityWalls) }} %</strong></span>
         </b-progress-bar>
       </b-progress>
       <div class="d-flex align-items-center justify-content-center mb-4">
@@ -21,9 +22,9 @@
           Previous
         </b-button>
         <b-button
+          :disabled="currentWallId == quantityWalls + 1"
           class="controlButton"
           variant="outline-primary btn-sm"
-          :disabled="currentWallId == quantityWalls"
           @click="nextWall()"
         >
           Next
@@ -31,6 +32,16 @@
       </div>
       <PaintingDimensionsRange />
       <PaintingItemWall />
+    </CustomCard>
+    <CustomCard>
+      <b-button
+          :disabled="currentWallId != quantityWalls + 1"
+          class="controlButton"
+          variant="outline-success btn-sm"
+          @click="sendArea()"
+        >
+          Get the Gallons!
+        </b-button>
     </CustomCard>
     <ToastNotification ref="notify" />
   </b-container>
@@ -52,11 +63,9 @@ export default {
   computed: {
     ...mapGetters({
       currentWall: 'walls/wall',
+      areaWalls: 'walls/getAreaFromWalls',
       gallons: 'gallons/getFetchedGallons'
     })
-  },
-  created () {
-    this.fetchGallons({ myRoomArea: '43' })
   },
   methods: {
     ...mapActions({
@@ -67,24 +76,24 @@ export default {
       persistCurrentWallById: 'walls/persistCurrentWallById'
     }),
     previousWall () {
-      if (this.currentWallId > 1) {
-        this.persistCurrentWallById(this.currentWallId)
-        this.currentWallId--
-        this.changeCurrentWallById(this.currentWallId)
-      }
+      this.persistCurrentWallById(this.currentWallId)
+      this.currentWallId--
+      this.changeCurrentWallById(this.currentWallId)
     },
     nextWall () {
       this.persistCurrentWallById(this.currentWallId)
       const alerts = Validating.validatingEntriesWall(this.currentWall)
       if (alerts.length === 0) {
-        if (this.currentWallId < this.quantityWalls) {
-          this.currentWallId++
+        this.currentWallId++
+        if (this.currentWallId !== this.quantityWalls + 1) {
           this.changeCurrentWallById(this.currentWallId)
-          this.$refs.notify.createToast('Very good!', `Wall ${this.currentWallId}/4 was defined`, 'success')
         }
       } else {
-        alerts.map((alert, index) => this.$refs.notify.createToast('Check the Entries!', alert.message, 'danger'))
+        alerts.map(alert => this.$refs.notify.createToast('Check the Entries!', alert.message, 'danger'))
       }
+    },
+    sendArea () {
+      this.fetchGallons({ myRoomArea: this.areaWalls })
     }
   }
 }
