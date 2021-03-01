@@ -38,7 +38,7 @@
 
 <script>
 
-import { mapMutations, mapGetters } from 'vuex'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 import Validating from '../functions/Validating'
 
 export default {
@@ -51,10 +51,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentWall: 'walls/wall'
+      currentWall: 'walls/wall',
+      gallons: 'gallons/getFetchedGallons'
     })
   },
+  created () {
+    this.fetchGallons({ myRoomArea: '43' })
+  },
   methods: {
+    ...mapActions({
+      fetchGallons: 'gallons/fetchGallons'
+    }),
     ...mapMutations({
       changeCurrentWallById: 'walls/changeCurrentWallById',
       persistCurrentWallById: 'walls/persistCurrentWallById'
