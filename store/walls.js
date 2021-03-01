@@ -1,7 +1,7 @@
 export const state = () => ({
-  currentWall: { idWall: 1.0, heightWall: 1.0, lengthWall: 1.0, numDoors: 0.0, numWindows: 0.0 },
+  currentWall: { idWall: 1, heightWall: 1.0, lengthWall: 1.0, numDoors: 0.0, numWindows: 0.0 },
   walls: [
-    { idWall: 1.0, heightWall: 1.0, lengthWall: 1.0, numDoors: 0.0, numWindows: 0.0 },
+    { idWall: 1, heightWall: 1.0, lengthWall: 1.0, numDoors: 0.0, numWindows: 0.0 },
     { idWall: 2, heightWall: 1.0, lengthWall: 1.0, numDoors: 0.0, numWindows: 0.0 },
     { idWall: 3, heightWall: 1.0, lengthWall: 1.0, numDoors: 0.0, numWindows: 0.0 },
     { idWall: 4, heightWall: 1.0, lengthWall: 1, numDoors: 0.0, numWindows: 0.0 }
@@ -28,5 +28,17 @@ export const getters = {
   },
   wall (state) {
     return state.currentWall
+  },
+  getAreaFromWalls (state) {
+    /* UsefulArea = WallArea - (DoorsArea + WindowArea) */
+    const usefulArea = state.walls.reduce((acc, wall) => {
+      const { lengthWall, heightWall, numDoors, numWindows } = wall
+      const wallArea = lengthWall * heightWall
+      const doorArea = numDoors * 0.8 * 1.9
+      const lengthWindow = numWindows * 1.2 * 2.0
+      const finalAreaWall = wallArea - (doorArea + lengthWindow)
+      return acc + finalAreaWall
+    }, 0)
+    return usefulArea
   }
 }
