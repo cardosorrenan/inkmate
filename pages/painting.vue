@@ -32,12 +32,14 @@
       <PaintingDimensionsRange />
       <PaintingItemWall />
     </CustomCard>
+    <ToastNotification ref="notify" />
   </b-container>
 </template>
 
 <script>
 
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
+import Validating from '../functions/Validating'
 
 export default {
   name: 'Paiting',
@@ -46,6 +48,11 @@ export default {
       quantityWalls: 4,
       currentWallId: 1
     }
+  },
+  computed: {
+    ...mapGetters({
+      currentWall: 'walls/wall'
+    })
   },
   methods: {
     ...mapMutations({
@@ -60,10 +67,16 @@ export default {
       }
     },
     nextWall () {
-      if (this.currentWallId < this.quantityWalls) {
-        this.persistCurrentWallById(this.currentWallId)
-        this.currentWallId++
-        this.changeCurrentWallById(this.currentWallId)
+      this.persistCurrentWallById(this.currentWallId)
+      const alerts = Validating.validatingEntriesWall(this.currentWall)
+      if (alerts.length === 0) {
+        if (this.currentWallId < this.quantityWalls) {
+          this.currentWallId++
+          this.changeCurrentWallById(this.currentWallId)
+          this.$refs.notify.createToast('Very good!', `Wall ${this.currentWallId}/4 was defined`, 'success')
+        }
+      } else {
+        alerts.map((alert, index) => this.$refs.notify.createToast('Check the Entries!', alert.message, 'danger'))
       }
     }
   }
