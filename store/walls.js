@@ -1,3 +1,5 @@
+import AreaByWall from '../functions/AreaByWall'
+
 export const state = () => ({
   currentWall: { idWall: 1, heightWall: 1.0, lengthWall: 1.0, numDoors: 0.0, numWindows: 0.0 },
   walls: [
@@ -29,15 +31,14 @@ export const getters = {
   wall (state) {
     return state.currentWall
   },
+  walls (state) {
+    return state.walls
+  },
   getAreaFromWalls (state) {
     /* UsefulArea = WallArea - (DoorsArea + WindowArea) */
     const usefulArea = state.walls.reduce((acc, wall) => {
-      const { lengthWall, heightWall, numDoors, numWindows } = wall
-      const wallArea = lengthWall * heightWall
-      const doorArea = numDoors * 0.8 * 1.9
-      const lengthWindow = numWindows * 1.2 * 2.0
-      const finalAreaWall = wallArea - (doorArea + lengthWindow)
-      return acc + finalAreaWall
+      const areaWall = AreaByWall.areaByWall(wall)
+      return acc + parseFloat(areaWall)
     }, 0)
     return usefulArea
   }

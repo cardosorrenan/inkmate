@@ -7,6 +7,7 @@
             title="Painting the room"
             tag="article"
             class="mb-2 pt-0"
+            style="background-color: #f5f5f5"
           >
             <b-card-text>
               Instantly get the amount of ink needed to paint your room

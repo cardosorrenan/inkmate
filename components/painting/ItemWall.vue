@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center justify-content-between w-80 mb-4">
+  <div class="d-flex justify-content-center justify-content-between w-80 mb-2 border-top border-muted pt-2">
     <div>
       <p style="font-size: 10pt" class="text-muted p-0 m-0 mb-2">
         Doors

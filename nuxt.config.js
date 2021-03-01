@@ -8,7 +8,11 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { 
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@700&display=swap'
+      }
     ]
   },
 
@@ -45,7 +49,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.API_URL,
+    baseURL: "http://localhost:8081",
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
