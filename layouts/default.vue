@@ -23,6 +23,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+  max-width: 100vw;
 }
 
 *,
@@ -36,24 +37,12 @@ html {
 #container {
   margin: 0;
   min-height: 93vh; /* 88% Container, 7% Header, 5% Padding Top */
-  min-width: 100vw;
+  max-width: 100vw;
   display: flex;
   background-color: #1b1b1b;
   justify-content: center;
   align-items: flex-start;
   text-align: center;
-}
-
-@media only screen and (max-width: 600px) {
-  #container {
-    flex-direction: column;
-  }
-}
-
-@media only screen and (min-width: 600px) {
-  #container {
-    flex-direction: row-reverse;
-  }
 }
 
 </style>
