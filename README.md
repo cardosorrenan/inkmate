@@ -1,19 +1,17 @@
 # Inkmate
+
+<p align="center">
+  <img src="./static/screen.png">
+</p>
+
 - ### Get the repo
 ```bash
 $ git clone https://github.com/cardosorrenan/inkmate.git
 
-$ cd inkmate_api
+$ cd inkmate
 ```
 - ### Build setup
-```bash
-# Builds an image from a Dockerfile 
-$ docker build -t inkmate . --rm=true  
 
-# Up a container over the specified image
-$ docker run -p 3000:3000 -d inkmate
-```
-or
 ```bash
 # install dependencies
 $ yarn install
@@ -30,5 +28,3 @@ $ yarn start
 # Running in
 http://localhost:3030/
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
