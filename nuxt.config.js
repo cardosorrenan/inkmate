@@ -63,7 +63,5 @@ export default {
   build: {
   },
 
-  router: {
-    mode: 'hash',
-  },
+  router: {}
 }

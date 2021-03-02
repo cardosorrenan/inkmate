@@ -1,20 +1,17 @@
 # Inkmate
-
-## Build Setup
-
+- ### Get the repo
 ```bash
-# Builds an image from a Dockerfile 
 $ git clone https://github.com/cardosorrenan/inkmate.git
 
-$ cd inkmate
-
-$ docker build -t inkmate .
+$ cd inkmate_api
+```
+- ### Build setup
+```bash
+# Builds an image from a Dockerfile 
+$ docker build -t inkmate . --rm=true  
 
 # Up a container over the specified image
 $ docker run -p 3000:3000 -d inkmate
-
-# Running in
-http://localhost:3000
 ```
 or
 ```bash
@@ -27,9 +24,11 @@ $ yarn dev
 # build for production and launch server
 $ yarn build
 $ yarn start
-
-# generate static project
-$ yarn generate
+```
+- ### Test
+```bash
+# Running in
+http://localhost:3030/
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).

@@ -15,7 +15,6 @@ export const actions = {
         area: myRoomArea
       }
     })
-    console.log(result)
     commit('setGallons', result)
   }
 }

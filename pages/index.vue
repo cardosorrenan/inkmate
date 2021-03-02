@@ -1,21 +1,13 @@
 <template>
   <div id="container">
-    <b-container class="mt-5">
-      <b-row class="mx-5 w-100">
-        <b-col md="4" sm="12">
-          <b-card
-            title="Painting the room"
-            tag="article"
-            class="mb-2 pt-0"
-            style="background-color: #f5f5f5"
-          >
-            <b-card-text>
-              Instantly get the amount of ink needed to paint your room
-            </b-card-text>
-            <NavButton to="/painting" title="Go" />
-          </b-card>
-        </b-col>
-      </b-row>
+    <b-container class="w-30">
+      <CustomCard class="d-flex mt-4 w-50">
+        <h5><strong class="ml-auto">Painting the room</strong></h5>
+        <b-card-text>
+          Instantly get the amount of ink needed to paint your room
+        </b-card-text>
+        <NavButton to="painting" title="Go" />
+      </CustomCard>
     </b-container>
   </div>
 </template>

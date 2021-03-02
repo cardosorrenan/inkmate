@@ -1,87 +1,99 @@
 <template>
-  <b-container id="container" class="d-flex align-items-center">
-    <CustomCard v-if="collectingInfo">
-      <h6 class="mr-auto mb-3">
-        Painting the room:
-      </h6>
-      <b-progress
-        :max="quantityWalls"
-        class="mt-0 pt-0 mb-2 bar-gray"
-        show-progress
-        animated
-      >
-        <b-progress-bar class="progress-bar-orange" :value="currentWallId - 1">
-          <span><strong>{{ (currentWallId - 1) * (100/quantityWalls) }} %</strong></span>
-        </b-progress-bar>
-      </b-progress>
-      <PaintingDimensionsRange />
-      <PaintingItemWall />
-      <div class="d-flex align-items-center justify-content-center my-2 border-top border-muted pt-3">
-        <b-button
-          class="btn-sm text-light mr-2 border border-transparent shadow"
-          style="background-color: #f4901d"
-          :disabled="currentWallId == 1"
-          @click="previousWall()"
+  <div id="container">
+    <b-container class="d-flex justify-content-center mt-4">
+      <CustomCard v-if="collectingInfo">
+        <h6 class="mr-auto mb-3">
+          Painting the room:
+        </h6>
+        <b-progress
+          :max="quantityWalls"
+          class="mt-0 pt-0 mb-2 bar-gray"
+          show-progress
+          animated
         >
-          Previous
-        </b-button>
-        <b-button
-          class="btn-sm text-light border border-transparent shadow"
-          style="background-color: #f4901d"
-          :disabled="currentWallId - 1 == quantityWalls"
-          @click="nextWall()"
-        >
-          Next
-        </b-button>
-      </div>
-    </CustomCard>
-    <CustomCard v-else class="w-40">
-      <b-progress
-        :max="100"
-        class="mt-0 pt-0 mb-2 bar-gray"
-        show-progress
-        animated
-      >
-        <b-progress-bar class="progress-bar-orange" :value="100">
-          <span><strong>100 %</strong></span>
-        </b-progress-bar>
-      </b-progress>
-      <div style="font-size: 8pt;" class="d-flex w-100">
-        <div class="mt-2 pl-3 w-100">
-          <h5 class="mr-auto my-2">
-            <b-badge class="shadow" style="background-color: #f4901d" >Results</b-badge>
-          </h5>
-          <div class="d-flex flex-column align-items-center">
-            <strong style="font-size: 12pt">{{ gallons.litersInk }} L to {{ gallons.area }} m²</strong>
-            <div class="mb-2 w-100"></div>
-            <strong class="mb-2 mr-2">Purchasing options</strong>
-          </div>
-          <div
-            v-for="(product) in gallons.results"
-            :key="product.prod_code"
-            class="d-flex flex-column align-items-start border-top border-muted py-2"
+          <b-progress-bar class="progress-bar-orange" :value="currentWallId - 1">
+            <span><strong>{{ (currentWallId - 1) * (100/quantityWalls) }} %</strong></span>
+          </b-progress-bar>
+        </b-progress>
+        <PaintingDimensionsRange />
+        <PaintingItemWall />
+        <div class="d-flex align-items-center justify-content-center my-2 border-top border-muted pt-3">
+          <b-button
+            class="btn-sm text-light mr-2 border border-transparent shadow"
+            style="background-color: #f4901d"
+            :disabled="currentWallId == 1"
+            @click="previousWall()"
           >
-            <p class="mb-0 p-0">
-              Gallon {{ product.volume }} - R$ {{ product.price_un }}
-            </p>
-            <p class="mb-0 p-0">
-              Quantity: {{ product.qtd_total }}
-            </p>
-            <p class="mb-0 p-0">
-              Total: R$ {{ parseFloat(product.price) }}
-            </p>
+            Previous
+          </b-button>
+          <b-button
+            class="btn-sm text-light border border-transparent shadow"
+            style="background-color: #f4901d"
+            :disabled="currentWallId - 1 == quantityWalls"
+            @click="nextWall()"
+          >
+            Next
+          </b-button>
+        </div>
+      </CustomCard>
+      <CustomCard v-else class="w-40">
+        <b-progress
+          :max="100"
+          class="mt-0 pt-0 mb-2 bar-gray"
+          show-progress
+          animated
+        >
+          <b-progress-bar class="progress-bar-orange" :value="100">
+            <span><strong>100 %</strong></span>
+          </b-progress-bar>
+        </b-progress>
+        <div style="font-size: 8pt;" class="d-flex w-100">
+          <div class="mt-2 pl-3 w-100">
+            <h5 class="mr-auto my-2">
+              <b-badge variant="dark" class="shadow px-3 py-2">
+                Results
+              </b-badge>
+            </h5>
+            <div class="d-flex flex-column align-items-center">
+              <strong style="font-size: 12pt">{{ gallons.liters_ink }} L to {{ gallons.area }} m²</strong>
+              <div class="mb-2 w-100" />
+              <strong class="mb-2 mr-2">Purchasing options</strong>
+            </div>
+            <div
+              v-for="(product) in gallons.results"
+              :key="product.volume"
+              class="d-flex flex-column align-items-start border-top border-muted py-2"
+            >
+              <b-badge
+                v-if="product.volume === gallons.recommended"
+                class="p-1 mb-1"
+                style="font-size: 8pt"
+                variant="success"
+              >
+                Recommend
+              </b-badge>
+              <p class="mb-0 p-0">
+                Gallon {{ product.volume }} - R$ {{ product.price_un }}
+              </p>
+              <p class="mb-0 p-0">
+                Quantity: {{ product.qtd_total }}
+              </p>
+              <p class="mb-0 p-0">
+                Total: R$ {{ parseFloat(product.price) }}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-      <b-button
-        class="mt-3 btn-sm text-light border border-transparent shadow"
-        variant="dark"
-        @click="collectingInfo = true && currentWallId--"
-      >
-        Back
-      </b-button>
-    </CustomCard>
-  </b-container>
+        <b-button
+          class="mt-3 btn-sm text-light border border-transparent shadow"
+          variant="dark"
+          @click="collectingInfo = true && currentWallId--"
+        >
+          Back
+        </b-button>
+      </CustomCard>
+    </b-container>
+  </div>
 </template>
 
 <script>
@@ -109,7 +121,7 @@ export default {
   },
   watch: {
     gallons: {
-      handler (update) {
+      handler () {
         this.collectingInfo = false
       }
     }
@@ -143,8 +155,8 @@ export default {
     },
     notify (message) {
       return this.$bvToast.toast(message, {
-        title: 'Check the inputs...',
-        solid: false,
+        title: 'Houston...',
+        solid: true,
         autoHideDelay: 3000,
         variant: 'danger'
       })
